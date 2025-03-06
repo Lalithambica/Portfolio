@@ -1,18 +1,187 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lalitha's Projects</title>
-  <link rel="stylesheet" href="projects.css">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
-  <script src = "script.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Project Showcase</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #121212;
+            color: white;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+            perspective: 1000px;
+            flex-direction: column;
+        }
+        .navbar {
+          display: flex;
+          flex-direction: row;
+          background-color: #161B22;
+          padding: 15px 20px;
+          justify-content: right;
+          border-bottom: 2px solid #58A6FF; 
+          gap: 3em;
+        }
+
+        .navbar a {
+          text-decoration: none;
+          color: white;
+          padding: 10px 15px;
+          font-size: 18px;
+          font-weight: bold;
+          transition: color 0.3s ease-in-out;
+        }
+
+        .navbar a:hover {
+          color: #58A6FF; 
+        }
+
+        .carousel-container {
+            position: relative;
+            width: 300px;
+            height: 250px;
+        }
+        .carousel {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            transition: transform 1s ease-in-out;
+        }
+        .project {
+            position: absolute;
+            width: 200px;
+            height: 140px;
+            background: #1e90ff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 1s ease-in-out, width 1s ease-in-out, height 1s ease-in-out, opacity 1s ease-in-out;
+            opacity: 0.5;
+        }
+        .active {
+            width: 320px;
+            height: 220px;
+            transform: scale(1.3) translateY(-10px);
+            opacity: 1;
+        }
+        .description {
+            margin-top: 20px;
+            background: #1e1e1e;
+            padding: 15px;
+            border-radius: 10px;
+            width: 350px;
+            text-align: center;
+            display: none;
+        }
+        .description a {
+            color: #1e90ff;
+            text-decoration: none;
+            font-size: 20px;
+            margin-top: 10px;
+            display: block;
+        }
+        .controls {
+            position: absolute;
+            top: 50%;
+            width: 100vw;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+            pointer-events: none;
+        }
+        .controls button {
+            background: rgba(255, 255, 255, 0.3);
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 20px;
+            color: white;
+            transition: background 0.3s;
+            pointer-events: auto;
+        }
+        .controls button:hover {
+            background: rgba(255, 255, 255, 0.6);
+        }
+    </style>
 </head>
 <body>
-  <div class="navbar">
-    <a id="Home" href="home.html">Home</a>
-    <a id="Projects" href="projects.html">Projects</a>
-    <a id="Connect" href="connect.html">Connect</a>
-  </div>
+    <div class="navbar">
+      <a id="Home" href="home.html">Home</a>
+      <a id="Projects" href="projects.html">Projects</a>
+      <a id="Connect" href="connect.html">Connect</a>
+    </div>
+
+    <div class="controls">
+        <button id="prev">❮</button>
+        <button id="next">❯</button>
+    </div>
+    
+    <div class="carousel-container">
+        <div class="carousel" id="carousel">
+            <div class="project active" style="transform: rotateY(0deg) translateZ(300px);" data-title="Project 1" data-desc="This is the first project description." data-link="https://github.com/Lalithambica/Project1">Project 1</div>
+            <div class="project" style="transform: rotateY(72deg) translateZ(300px);" data-title="Project 2" data-desc="This is the second project description." data-link="https://github.com/Lalithambica/Project2">Project 2</div>
+            <div class="project" style="transform: rotateY(144deg) translateZ(300px);" data-title="Project 3" data-desc="This is the third project description." data-link="https://github.com/Lalithambica/Project3">Project 3</div>
+            <div class="project" style="transform: rotateY(216deg) translateZ(300px);" data-title="Project 4" data-desc="This is the fourth project description." data-link="https://github.com/Lalithambica/Project4">Project 4</div>
+            <div class="project" style="transform: rotateY(288deg) translateZ(300px);" data-title="Project 5" data-desc="This is the fifth project description." data-link="https://github.com/Lalithambica/Project5">Project 5</div>
+        </div>
+    </div>
+    <div class="description" id="description">
+        <h3 id="desc-title"></h3>
+        <p id="desc-text"></p>
+        <a id="desc-link" href="#" target="_blank">View on GitHub</a>
+    </div>
+    <script>
+        const carousel = document.getElementById("carousel");
+        const projects = document.querySelectorAll(".project");
+        const descBox = document.getElementById("description");
+        const descTitle = document.getElementById("desc-title");
+        const descText = document.getElementById("desc-text");
+        const descLink = document.getElementById("desc-link");
+        let angle = 0;
+        let activeIndex = 0;
+
+        function updateProjects() {
+            projects.forEach((project, index) => {
+                project.classList.remove("active");
+                project.style.opacity = "0.5";
+                if (index === activeIndex) {
+                    project.classList.add("active");
+                    project.style.opacity = "1";
+                    descTitle.textContent = project.getAttribute("data-title");
+                    descText.textContent = project.getAttribute("data-desc");
+                    descLink.href = project.getAttribute("data-link");
+                    descBox.style.display = "block";
+                }
+            });
+        }
+
+        document.getElementById("next").addEventListener("click", () => {
+            angle -= 72;
+            activeIndex = (activeIndex + 1) % projects.length;
+            carousel.style.transition = "transform 1s ease-in-out";
+            carousel.style.transform = `rotateY(${angle}deg)`;
+            updateProjects();
+        });
+
+        document.getElementById("prev").addEventListener("click", () => {
+            angle += 72;
+            activeIndex = (activeIndex - 1 + projects.length) % projects.length;
+            carousel.style.transition = "transform 1s ease-in-out";
+            carousel.style.transform = `rotateY(${angle}deg)`;
+            updateProjects();
+        });
+
+        updateProjects();
+    </script>
 </body>
 </html>
