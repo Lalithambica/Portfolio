@@ -1,0 +1,81 @@
+
+body {
+  background-color: #0D1117;
+  color: #E6EDF3;
+  font-family: 'Poppins', sans-serif;
+}
+
+.navbar {
+  display: flex;
+  flex-direction: row;
+  background-color: #161B22;
+  padding: 15px 20px;
+  justify-content: right;
+  border-bottom: 2px solid #58A6FF; 
+  gap: 3em;
+  /* position: fixed;
+  top: 0; 
+  left: 0;
+  width: 100%; 
+  z-index: 1000; */
+}
+
+.navbar a {
+  text-decoration: none;
+  color: white;
+  padding: 10px 15px;
+  font-size: 18px;
+  font-weight: bold;
+  transition: color 0.3s ease-in-out;
+}
+
+.navbar a:hover {
+  color: #58A6FF; 
+}
+
+@media (max-width:600px){
+  .image img{
+    width: 200px;
+    height:200px;
+  }
+  .image img:hover{
+    width: 200px;
+    height:200px;
+    filter: brightness(70%) saturate(80%)
+  }
+}@media (max-width:900px) and (min-width:600px){
+  .image img{
+    width: 300px;
+    height:300px;
+  }
+  .image img:hover{
+    width: 300px;
+    height:300px;
+    filter: brightness(70%) saturate(80%)
+  }
+}
+
+@media (max-width:800px){
+  .image img{
+    width: 300px;
+    height:300px;
+  }
+  .image img:hover{
+    width: 300px;
+    height:300px;
+    filter: brightness(70%) saturate(80%)
+  }
+  .container{
+    flex-direction: column;
+  }
+}
+@keyframes slideIn {
+  0% {
+    left: -100%;
+    opacity: 1;
+  }
+  100% {
+    left: 0;
+    opacity: 1;
+  }
+}
