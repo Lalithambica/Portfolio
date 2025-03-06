@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3D Project Showcase</title>
+    <title>Lalitha's Projects</title>
     <link rel="stylesheet" href="styles.css">
     <style>
         body {
@@ -25,7 +25,7 @@
             display: flex;
             justify-content: right;
             padding: 15px 20px;
-            position:fixed;
+            position: fixed;
             top: 0;
             z-index: 1000;
         }
@@ -84,13 +84,16 @@
             width: 700px;
             text-align: center;
             display: none;
+            position: relative;
         }
-        .description a {
-            color: #1e90ff;
-            text-decoration: none;
-            font-size: 20px;
-            margin-top: 10px;
-            display: block;
+        .github-link {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+        .github-link img {
+            width: 30px;
+            height: 30px;
         }
         .controls {
             position: absolute;
@@ -138,9 +141,11 @@
         </div>
     </div>
     <div class="description" id="description">
+        <a id="desc-link" class="github-link" href="#" target="_blank">
+            <img src="git.png" alt="GitHub">
+        </a>
         <h3 id="desc-title"></h3>
         <p id="desc-text"></p>
-        <a id="desc-link" href="#" target="_blank">View on GitHub</a>
     </div>
     <script>
         const carousel = document.getElementById("carousel");
@@ -170,7 +175,6 @@
         document.getElementById("next").addEventListener("click", () => {
             angle -= 72;
             activeIndex = (activeIndex + 1) % projects.length;
-            carousel.style.transition = "transform 1s ease-in-out";
             carousel.style.transform = `rotateY(${angle}deg)`;
             updateProjects();
         });
@@ -178,7 +182,6 @@
         document.getElementById("prev").addEventListener("click", () => {
             angle += 72;
             activeIndex = (activeIndex - 1 + projects.length) % projects.length;
-            carousel.style.transition = "transform 1s ease-in-out";
             carousel.style.transform = `rotateY(${angle}deg)`;
             updateProjects();
         });
